@@ -10,12 +10,12 @@ describe QRCode::Encoder::Util do
 	it "calculates demerit points for 4 dark ratio" do
 		# Test with all white modules (ratio = 0)
 		# Expected: (100 * 0 - 50).abs / 5 * 10 = 10 * 10 = 100
-		modules = Array.new(4) {Array.new(4, false)}
+		modules = Array.new(4){Array.new(4, false)}
 		expect(QRCode::Encoder::Util.demerit_points_4_dark_ratio(modules)).to be == 100
 		
 		# Test with all black modules (ratio = 1)
 		# Expected: (100 * 1 - 50).abs / 5 * 10 = 50 / 5 * 10 = 10 * 10 = 100
-		modules = Array.new(4) {Array.new(4, true)}
+		modules = Array.new(4){Array.new(4, true)}
 		expect(QRCode::Encoder::Util.demerit_points_4_dark_ratio(modules)).to be == 100
 		
 		# Test with half black, half white modules (ratio = 0.5)

@@ -51,10 +51,10 @@ File.write("qrcode.svg", svg_content)
 
 # Customized SVG output
 svg_content = QRCode.svg("Hello World", 
-		cell_size: 20, 
-		border: 3,
-		dark_color: "#000080",
-		light_color: "#f0f0f0"
+	cell_size: 20, 
+	border: 3,
+	dark_color: "#000080",
+	light_color: "#f0f0f0"
 )
 ```
 

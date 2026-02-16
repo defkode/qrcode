@@ -48,14 +48,14 @@ module QRCode
 		}.freeze
 		
 		MASK_COMPUTATIONS = [
-			proc {|i, j| (i + j) % 2 == 0},
-			proc {|i, j| i % 2 == 0},
-			proc {|i, j| j % 3 == 0},
-			proc {|i, j| (i + j) % 3 == 0},
-			proc {|i, j| ((i / 2) + (j / 3)) % 2 == 0},
-			proc {|i, j| ((i * j) % 2) + ((i * j) % 3) == 0},
-			proc {|i, j| (((i * j) % 2) + ((i * j) % 3)) % 2 == 0},
-			proc {|i, j| (((i * j) % 3) + ((i + j) % 2)) % 2 == 0}
+			proc{|i, j| (i + j) % 2 == 0},
+			proc{|i, j| i % 2 == 0},
+			proc{|i, j| j % 3 == 0},
+			proc{|i, j| (i + j) % 3 == 0},
+			proc{|i, j| ((i / 2) + (j / 3)) % 2 == 0},
+			proc{|i, j| ((i * j) % 2) + ((i * j) % 3) == 0},
+			proc{|i, j| (((i * j) % 2) + ((i * j) % 3)) % 2 == 0},
+			proc{|i, j| (((i * j) % 3) + ((i + j) % 2)) % 2 == 0}
 		].freeze
 		
 		POSITION_PATTERN_LENGTH = (7 + 1) * 2 + 1

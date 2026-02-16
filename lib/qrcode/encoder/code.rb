@@ -158,15 +158,15 @@ module QRCode
 			
 			protected
 			
-			def make # :nodoc:
+			def make
 				prepare_common_patterns
 				make_impl(false, get_best_mask_pattern)
 			end
 			
 			private
 			
-			def prepare_common_patterns # :nodoc:
-				@modules.map! {|row| Array.new(@module_count)}
+			def prepare_common_patterns
+				@modules.map!{|row| Array.new(@module_count)}
 				
 				place_position_probe_pattern(0, 0)
 				place_position_probe_pattern(@module_count - 7, 0)
@@ -177,7 +177,7 @@ module QRCode
 				@common_patterns = @modules.map(&:clone)
 			end
 			
-			def make_impl(test, mask_pattern) # :nodoc:
+			def make_impl(test, mask_pattern)
 				@modules = @common_patterns.map(&:clone)
 				
 				place_format_info(test, mask_pattern)
@@ -192,7 +192,7 @@ module QRCode
 				map_data(@data_cache, mask_pattern)
 			end
 			
-			def place_position_probe_pattern(row, col) # :nodoc:
+			def place_position_probe_pattern(row, col)
 				(-1..7).each do |r|
 					next unless (row + r).between?(0, @module_count - 1)
 					
@@ -209,7 +209,7 @@ module QRCode
 				end
 			end
 			
-			def get_best_mask_pattern # :nodoc:
+			def get_best_mask_pattern
 				min_lost_point = 0
 				pattern = 0
 				
@@ -225,13 +225,13 @@ module QRCode
 				pattern
 			end
 			
-			def place_timing_pattern # :nodoc:
+			def place_timing_pattern
 				(8...@module_count - 8).each do |i|
 					@modules[i][6] = @modules[6][i] = i % 2 == 0
 				end
 			end
 			
-			def place_position_adjust_pattern # :nodoc:
+			def place_position_adjust_pattern
 				positions = Encoder::Util.get_pattern_positions(@version)
 				
 				positions.each do |row|
@@ -248,7 +248,7 @@ module QRCode
 				end
 			end
 			
-			def place_version_info(test) # :nodoc:
+			def place_version_info(test)
 				bits = Encoder::Util.get_bch_version(@version)
 				
 				18.times do |i|
@@ -258,7 +258,7 @@ module QRCode
 				end
 			end
 			
-			def place_format_info(test, mask_pattern) # :nodoc:
+			def place_format_info(test, mask_pattern)
 				data = (@error_correction_level << 3 | mask_pattern)
 				bits = Encoder::Util.get_bch_format_info(data)
 				
@@ -290,7 +290,7 @@ module QRCode
 				@modules[@module_count - 8][8] = !test
 			end
 			
-			def map_data(data, mask_pattern) # :nodoc:
+			def map_data(data, mask_pattern)
 				inc = -1
 				row = @module_count - 1
 				bit_index = 7
@@ -334,19 +334,19 @@ module QRCode
 				
 				max_size_bits = MAX_BITS[error_correction_level][version - 1]
 				
-				size_bits = @segments.sum {|segment| segment.bit_size(version)}
+				size_bits = @segments.sum{|segment| segment.bit_size(version)}
 				
 				return version if size_bits < max_size_bits
 				
 				minimum_version(limit: limit, version: version + 1)
 			end
 			
-			def extract_options!(arr) # :nodoc:
+			def extract_options!(arr)
 				arr.last.is_a?(::Hash) ? arr.pop : {}
 			end
 			
 			class << self
-				def count_max_data_bits(rs_blocks) # :nodoc:
+				def count_max_data_bits(rs_blocks)
 					max_data_bytes = rs_blocks.reduce(0) do |sum, rs_block|
 						sum + rs_block.data_count
 					end
@@ -354,12 +354,12 @@ module QRCode
 					max_data_bytes * 8
 				end
 				
-				def create_data(version, error_correction_level, segments) # :nodoc:
+				def create_data(version, error_correction_level, segments)
 					rs_blocks = Encoder::ErrorCorrectionBlock.for(version, error_correction_level)
 					max_data_bits = Code.count_max_data_bits(rs_blocks)
 					buffer = Encoder::BitBuffer.new(version)
 					
-					segments.each {|segment| segment.write(buffer)}
+					segments.each{|segment| segment.write(buffer)}
 					buffer.end_of_message(max_data_bits)
 					
 					if buffer.get_length_in_bits > max_data_bits
@@ -371,7 +371,7 @@ module QRCode
 					Code.create_bytes(buffer, rs_blocks)
 				end
 				
-				def create_bytes(buffer, rs_blocks) # :nodoc:
+				def create_bytes(buffer, rs_blocks)
 					offset = 0
 					max_dc_count = 0
 					max_ec_count = 0
